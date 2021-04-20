@@ -8,64 +8,112 @@ if (!empty($_POST)) {
 
     // Gestion des données POST
 
-    // vérification de tout les champs du formulaires
-    $titre = verifInput("titre", true, "string");
-    $description = verifInput("description", true, "string");
-    $ville = verifInput("ville", true, "string");
-    $pays = verifInput("pays", true, "string");
-    $prixParPersonne = verifInput("prixParPersonne", true, "string");
-    $distanceDepuisParis = verifInput("distanceDepuisParis", false, "string");
-    $typeDePension = verifInput("typeDePension", true, "string");
-    $dateDeDepart = verifInput("dateDeDepart", false, "");
-    $dateDeRetour = verifInput("dateDeRetour", false, "");
-    $dateDeRetour = verifInput("dateDeRetour", false, "");
+    // vérification de tout les champs des formulaires
+    //données text donc tous obligatoires
+    $nom = verifInput("nom", true, "string");
+    $prenom = verifInput("prenom", true, "string");
 
     // on verifie les erreurs avant de mettre dans la base pour evitez de pourrir la base
+    //formulaire conducteur
     if (count($erreur) === 0) {
 
-        // insertion en base
-        $rq = "SELECT id FROM location_voyage WHERE photo = :photoName";
-        $query = $pdo->prepare($rq); //pdo variable prédéfini
-        $query->bindValue(':photoName', $photoName, PDO::PARAM_STR);
+        // insertion en base 
+        //verifions que le conducteur n'existe pas deja
+        $rq = "SELECT id FROM conducteur WHERE name = :name";
+        $query = $pdo->prepare($rq);
+        $query->bindValue(':name', $name, PDO::PARAM_STR);
         $query->execute();
-        $result = $query->fetch(); // vérifie que le fichier photo n'est pas deja dans la base de donnée fetch recrache un tableau lisible par php
+        $result = $query->fetch();
 
         if (!$result) {
-
-            // $rq = "INSERT INTO location_voyage(titre)
-            // VALUES 
-            // (:titre)";
-            var_dump("");
-            $rq = "INSERT INTO location_voyage(titre,description,ville,pays,prix_par_personne,distance_depuis_paris,type_de_pension,date_de_depart,date_de_retour,photo)
-            VALUES 
-            (:titre,:description,:ville,:pays,:prix_par_personne,:distance_depuis_paris,:type_de_pension,:date_de_depart,:date_de_retour,:photo)"; // rq = requete
+            $rq = "INSERT INTO conducteur(nom, prenom)
+            VALUES (:nom,:prenom)";
             $query = $pdo->prepare($rq);
-            $query->bindValue(':titre', $titre, PDO::PARAM_STR);
-            $query->bindValue(':description', $description, PDO::PARAM_STR);
-            $query->bindValue(':ville', $ville, PDO::PARAM_STR);
-            $query->bindValue(':pays', $pays, PDO::PARAM_STR);
-            $query->bindValue(':prix_par_personne', $prixParPersonne, PDO::PARAM_INT);
-            $query->bindValue(':distance_depuis_paris', $distanceDepuisParis, PDO::PARAM_INT);
-            $query->bindValue(':type_de_pension', $typeDePension, PDO::PARAM_STR);
-            $query->bindValue(':date_de_depart', $dateDeDepart, PDO::PARAM_STR);
-            $query->bindValue(':date_de_retour', $dateDeRetour, PDO::PARAM_STR);
-
+            $query->bindValue(':nom', $nom, PDO::PARAM_STR);
+            $query->bindValue(':prenom', $prenom, PDO::PARAM_STR);
             $query->execute();
-
             echo $erreur;
-            header("Location:./formulaire.php");
+            header("Location:index.php");
         } else {
-            $erreur["photo"] = "Cette photo existe déjà";
-
-            $erreur = serialize($erreur); // transforme un tableau en chaine de caratère
-
-            header("Location:./formulaire?er=$erreur");
+            $erreur["nom"] = "Cette personne existe déjà";
+            $erreur = serialize($erreur);
+            header("Location:index?er=$erreur");
         }
     } else {
-        //$er ="il y a une erreur"; plus nécessaire c'est pour tester si on vois une erreur en remplaçant $erreur ici header("Location:../formulaire?er=$erreur");
-        $erreur = serialize($erreur); // transforme un tableau en chaine de caratère
-        //$erreur = unserialize($erreur);
-        header("Location:./formulaire?er=$erreur");
+        $erreur = serialize($erreur);
+        header("Location:index?er=$erreur");
+    }
+
+
+    //formulaire vehicule
+    //données text donc tous obligatoires
+    $marque = verifInput("marque", true, "string");
+    $modele = verifInput("modele", true, "string");
+    $couleur = verifInput("couleur", true, "string");
+    $immatriculation = verifInput("immatriculation", true, "string");
+
+    if (count($erreur) === 0) {
+
+        // insertion en base 
+        //verifions que le vehicule n'existe pas deja
+        $rq = "SELECT id FROM vehicule WHERE immatriculation = :immatriculation";
+        $query = $pdo->prepare($rq);
+        $query->bindValue(':immatriculation', $immatriculation, PDO::PARAM_STR);
+        $query->execute();
+        $result = $query->fetch();
+
+        if (!$result) {
+            $rq = "INSERT INTO vehicules(marque, modele, couleur, immatriculation)
+            VALUES (:marque, :modele, :couleur, :immatriculation)";
+            $query = $pdo->prepare($rq);
+            $query->bindValue(':marque', $marque, PDO::PARAM_STR);
+            $query->bindValue(':modele', $modele, PDO::PARAM_STR);
+            $query->bindValue(':couleur', $couleur, PDO::PARAM_STR);
+            $query->bindValue(':immatriculation', $immatriculation, PDO::PARAM_STR);
+            $query->execute();
+            echo $erreur;
+            header("Location:form_vehicule.php");
+        } else {
+            $erreur["immatriculation"] = "Cette immatriculation existe déjà";
+            $erreur = serialize($erreur);
+            header("Location:form_vehicule?er=$erreur");
+        }
+    } else {
+        $erreur = serialize($erreur);
+        header("Location:form_vehicule?er=$erreur");
+    }
+
+    //formulaire assoc
+    //champs select non obligatoire
+    $associtation_conducteur_vehicule = verifInput("associtation_conducteur_vehicule", false, "string");
+    $association_vehicule_conducteur = verifInput("association_vehicule_conducteur", false, "string");
+    if (count($erreur) === 0) {
+
+        // insertion en base 
+        //verifions que le conducteur n'existe pas deja
+        $rq = "SELECT id FROM vehicule WHERE immatriculation = :immatriculation";
+        $query = $pdo->prepare($rq);
+        $query->bindValue(':immatriculation', $immatriculation, PDO::PARAM_STR);
+        $query->execute();
+        $result = $query->fetch();
+
+        if (!$result) {
+            $rq = "INSERT INTO vehicules(nom, prenom)
+            VALUES (:nom,:prenom)";
+            $query = $pdo->prepare($rq);
+            $query->bindValue(':nom', $nom, PDO::PARAM_STR);
+            $query->bindValue(':prenom', $prenom, PDO::PARAM_STR);
+            $query->execute();
+            echo $erreur;
+            header("Location:index.php");
+        } else {
+            $erreur["nom"] = "Cette personne existe déjà";
+            $erreur = serialize($erreur);
+            header("Location:index?er=$erreur");
+        }
+    } else {
+        $erreur = serialize($erreur);
+        header("Location:index?er=$erreur");
     }
 }
 

@@ -1,11 +1,10 @@
-<?php //fichier de lien avec la base de donnée
+<?php
 
-try { // essaie de conncetion avec la base de donnée sinon on affcihe une erreur avec catch on copie collera ceci sauf 
-    //les mysql:host dbname "root"=username, ""=psw et on retire errmode uniquement en production et mais on l'utilise en dev pour débug
+try {
     // host= url de ma base de donnée
     //dbname= nom de ma base de donnée
-    //"root" login mysql
-    //"" mot de passe
+    //'root' login mysql
+    //''mot de passe mysql
     $pdo = new PDO("mysql:host=localhost;dbname=vtc", "root", "", array(
         PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8",
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,

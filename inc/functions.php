@@ -1,10 +1,16 @@
 <?php
+// j'appelle une fois mon PDO qui est la connexion a ma base de données
 require_once("./inc/pdo.php");
+
 // function requetes MySQl
 
 // functions courantes
+
 //functions d'erreur
+
+// je pose mon tableau d'erreur
 $erreur = [];
+//gestion erreur champs => créee une div avec la class 'error' voir CSS
 function error($input)
 {
     global $erreur;
@@ -13,10 +19,13 @@ function error($input)
         echo "<div class='error'>" . $erreur[$input] . "</div>";
     }
 }
-//functions de verifications de mes inputs 
+
+//functions de verifications de mes inputs pour evitez toute injection SQL et savoir si je recupere les bonnes données
 function verifInput($input, $obligatoire = false, $type = false)
+// ici deux parametres optionnels, le param $obligatoire et le param $type, le param $input correspond a mon champ, la où mon utilisateur ecris 
 {
     global $erreur; //je récupère le tableau d'erreur
+    //je verifie toujours que mes données $_POST ne soit pas vide et existe
     if (!empty($_POST[$input]) && isset($_POST[$input])) {
         $retour = trim(strip_tags($_POST[$input]));
     } else {
@@ -42,9 +51,9 @@ function verifInput($input, $obligatoire = false, $type = false)
             case 'string':
                 $retour = strval($retour);
                 break;
-                // autres case possibles : array,object,boolean,NULL,...
+
             default:
-                # code...
+
                 $retour = "";
                 break;
         }

@@ -1,5 +1,5 @@
 <?php
-
+// j'apelle ici les fichiers dont j'ai besoin ;
 require_once("./inc/functions.php");
 include('./inc/header.php');
 ?>
@@ -16,6 +16,8 @@ include('./inc/header.php');
 
 <body>
     <?php
+    // j'etablie une connection pour faire une requete a ma base pour sortir les resultats de ma table association_vehicule_conducteur 
+    //qui se trouve dans ma base vtc pour ensuite les remettres sous forme de tableau en html
     $mysqli = new mysqli("localhost", "root", "", "vtc");
     $mysqli->set_charset("utf8");
     $rq = "SELECT * FROM association_vehicule_conducteur";
@@ -28,8 +30,8 @@ include('./inc/header.php');
     echo '</table>';
     $mysqli->close();
 
-
-
+    //j'etablie une autre connection a ma base pour afficher les reponse dont j'ai besoin pour afficher les elements dans mon select
+    // je m'assure de lui mettre une value en lien avec ma base de données pour pouvoir rattraper mes donnes plus tard
     try {
         $bdd = new PDO('mysql:host=localhost;dbname=vtc', 'root', '');
     } catch (Exception $e) {
@@ -41,10 +43,8 @@ include('./inc/header.php');
     <div id="formmp3">
         <h1>Association_vehicule_conducteur</h1>
         <div id="success"></div>
-        <?php
-        // error('success');
-        ?>
-        <form class="formulaire" action="./validator.php" method="POST" name="uploadMP3">
+
+        <form class="formulaire" action="./validator.php" method="POST" name="assoc">
             <label for="associtation_conducteur_vehicule">Conducteur</label>
             <select name="associtation_conducteur_vehicule" id="associtation_conducteur_vehicule">
                 <option value="" disabled selected>Choisissez le Conducteur</option>
@@ -64,13 +64,11 @@ include('./inc/header.php');
                 $reponse = $bdd->query('SELECT * FROM vehicule');
                 while ($donnees = $reponse->fetch()) {
                 ?>
-                    <option value="<?php echo $donnees['marque']; ?>"> <?php echo $donnees['marque']; ?></option>
+                    <option value="<?php echo $donnees['marque']; ?>"> <?php echo "$donnees[marque] "; ?><?php echo $donnees['modele']; ?></option>
                 <?php
                 }
                 ?>
             </select>
-
-
 
             <input type="submit" value="ajouter cette association" name="submit">
         </form>

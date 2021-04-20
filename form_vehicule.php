@@ -1,5 +1,5 @@
 <?php
-
+// j'apelle ici les fichiers dont j'ai besoin ;
 require_once("./inc/functions.php");
 include('./inc/header.php');
 ?>
@@ -10,12 +10,15 @@ include('./inc/header.php');
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Poke tour </title>
+    <title>Vehicule </title>
     <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 
 <body>
+
     <?php
+    // j'etablie une connection pour faire une requete a ma base pour sortir les resultats de ma table vehicule 
+    //qui se trouve dans ma base vtc pour ensuite les remettres sous forme de tableau en html
     $mysqli = new mysqli("localhost", "root", "", "vtc");
     $mysqli->set_charset("utf8");
     $rq = "SELECT * FROM vehicule";
@@ -31,12 +34,12 @@ include('./inc/header.php');
     ?>
 
     <div id="formmp3">
-        <h1>Conducteur</h1>
+        <h1>Vehicule</h1>
         <div id="success"></div>
         <?php
         // error('success');
         ?>
-        <form class="formulaire" action="./validator.php" method="POST" name="uploadMP3">
+        <form class="formulaire" action="./validator.php" method="POST" name="vehicule">
             <input type="text" name="Marque" placeholder="Marque" id="Marque">
             <?php
             // error('id_association');
