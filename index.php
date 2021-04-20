@@ -21,9 +21,9 @@ include('./inc/header.php');
     $rq = "SELECT * FROM conducteur";
     $resultat = $mysqli->query($rq);
     echo '<table>';
-    echo '<tr><td>Nom</td><td>Prenom</td><td>Modif</td><td>Supress</td></tr>';
+    echo '<tr id="tab"><td>id_conducteur</td><td>Nom</td><td>Prenom</td><td>Modification</td><td>Supression</td></tr>';
     while ($ligne = $resultat->fetch_assoc()) {
-        echo  '<tr>' . '<td>' . $ligne['prenom'] . '</td> ' . '<td>' . $ligne['nom'] . '</td>' . '<td>' . '<button type="button" class="btn btn-success">Modifier</button>' . '</td>' . '<td>' . '<button type="button" class="btn btn-warning">Supprimer</button>' . '</td>' . '</tr>';
+        echo  '<tr>' . '<td>' . $ligne['id_conducteur'] . '</td> ' . '<td>' . $ligne['prenom'] . '</td> ' . '<td>' . $ligne['nom'] . '</td>' . '<td>' . '<button type="button" class="btn btn-success">Modifier</button>' . '</td>' . '<td>' . '<button type="button" class="btn btn-danger">Supprimer</button>' . '</td>' . '</tr>';
     }
     echo '</table>';
     $mysqli->close();

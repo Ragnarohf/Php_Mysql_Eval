@@ -15,6 +15,20 @@ include('./inc/header.php');
 </head>
 
 <body>
+    <?php
+    $mysqli = new mysqli("localhost", "root", "", "vtc");
+    $mysqli->set_charset("utf8");
+    $rq = "SELECT * FROM conducteur";
+    $resultat = $mysqli->query($rq);
+    echo '<table>';
+    echo '<tr id="tab"><td>Nom</td><td>Prenom</td><td>Modification</td><td>Supression</td></tr>';
+    while ($ligne = $resultat->fetch_assoc()) {
+        echo  '<tr>' . '<td>' . $ligne['prenom'] . '</td> ' . '<td>' . $ligne['nom'] . '</td>' . '<td>' . '<button type="button" class="btn btn-success">Modifier</button>' . '</td>' . '<td>' . '<button type="button" class="btn btn-danger">Supprimer</button>' . '</td>' . '</tr>';
+    }
+    echo '</table>';
+    $mysqli->close();
+
+    ?>
 
     <div id="formmp3">
         <h1>Association_vehicule_conducteur</h1>

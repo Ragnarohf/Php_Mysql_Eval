@@ -80,3 +80,18 @@ select:hover {
   justify-content: space-around;
   flex-wrap: wrap;
 }
+table {
+  border-collapse: collapse;
+  margin: auto;
+  margin-top: 15px;
+}
+table #tab {
+  background-color: black;
+  color: snow;
+  font-size: 20px;
+}
+
+td {
+  border: 1px solid black;
+  padding: 10px;
+}
