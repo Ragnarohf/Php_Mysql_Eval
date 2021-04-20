@@ -18,17 +18,25 @@ include('./inc/header.php');
     <?php
     $mysqli = new mysqli("localhost", "root", "", "vtc");
     $mysqli->set_charset("utf8");
-    $rq = "SELECT * FROM conducteur";
+    $rq = "SELECT * FROM association_vehicule_conducteur";
     $resultat = $mysqli->query($rq);
     echo '<table>';
-    echo '<tr id="tab"><td>Nom</td><td>Prenom</td><td>Modification</td><td>Supression</td></tr>';
+    echo '<tr id="tab"><td>id_association</td><td>conducteur</td><td>vehicule</td><td>Modification</td><td>Supression</td></tr>';
     while ($ligne = $resultat->fetch_assoc()) {
-        echo  '<tr>' . '<td>' . $ligne['prenom'] . '</td> ' . '<td>' . $ligne['nom'] . '</td>' . '<td>' . '<button type="button" class="btn btn-success">Modifier</button>' . '</td>' . '<td>' . '<button type="button" class="btn btn-danger">Supprimer</button>' . '</td>' . '</tr>';
+        echo  '<tr>' . '<td>' . $ligne['id_association'] . '</td> ' . '<td>' . $ligne['id_conducteur'] . '</td>' . '<td>' . $ligne['id_vehicule'] . '</td>' . '<td>' . '<button type="button" class="btn btn-success">Modifier</button>' . '</td>' . '<td>' . '<button type="button" class="btn btn-danger">Supprimer</button>' . '</td>' . '</tr>';
     }
     echo '</table>';
     $mysqli->close();
 
+
+
+    try {
+        $bdd = new PDO('mysql:host=localhost;dbname=vtc', 'root', '');
+    } catch (Exception $e) {
+        die('Erreur : ' . $e->getMessage());
+    }
     ?>
+    </form>
 
     <div id="formmp3">
         <h1>Association_vehicule_conducteur</h1>
@@ -40,13 +48,29 @@ include('./inc/header.php');
             <label for="associtation_conducteur_vehicule">Conducteur</label>
             <select name="associtation_conducteur_vehicule" id="associtation_conducteur_vehicule">
                 <option value="" disabled selected>Choisissez le Conducteur</option>
-
+                <?php
+                $reponse = $bdd->query('SELECT * FROM conducteur');
+                while ($donnees = $reponse->fetch()) {
+                ?>
+                    <option value="<?php echo $donnees['nom']; ?>"> <?php echo $donnees['prenom']; ?></option>
+                <?php
+                }
+                ?>
             </select>
             <label for="association_vehicule_conducteur">Vehicule</label>
             <select name="association_vehicule_conducteur" id="association_vehicule_conducteur">
-                <option value="" disabled selected>Choisissez le Conducteur</option>
-
+                <option value="" disabled selected>Choisissez le Vehicule</option>
+                <?php
+                $reponse = $bdd->query('SELECT * FROM vehicule');
+                while ($donnees = $reponse->fetch()) {
+                ?>
+                    <option value="<?php echo $donnees['marque']; ?>"> <?php echo $donnees['marque']; ?></option>
+                <?php
+                }
+                ?>
             </select>
+
+
 
             <input type="submit" value="ajouter cette association" name="submit">
         </form>

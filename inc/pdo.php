@@ -1,4 +1,4 @@
-<?php //fichier de lien avec la base de donée
+<?php //fichier de lien avec la base de donnée
 
 try { // essaie de conncetion avec la base de donnée sinon on affcihe une erreur avec catch on copie collera ceci sauf 
     //les mysql:host dbname "root"=username, ""=psw et on retire errmode uniquement en production et mais on l'utilise en dev pour débug
