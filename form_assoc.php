@@ -52,7 +52,7 @@ include('./inc/header.php');
                 $reponse = $bdd->query('SELECT * FROM conducteur');
                 while ($donnees = $reponse->fetch()) {
                 ?>
-                    <option value="<?php echo $donnees['nom']; ?>"> <?php echo $donnees['prenom']; ?></option>
+                    <option value="<?php echo $donnees['id_conducteur']; ?>"> <?php echo $donnees['prenom']; ?></option>
                 <?php
                 }
                 ?>
@@ -64,7 +64,7 @@ include('./inc/header.php');
                 $reponse = $bdd->query('SELECT * FROM vehicule');
                 while ($donnees = $reponse->fetch()) {
                 ?>
-                    <option value="<?php echo $donnees['marque']; ?>"> <?php echo "$donnees[marque] "; ?><?php echo $donnees['modele']; ?></option>
+                    <option value="<?php echo $donnees['id_vehicule']; ?>"> <?php echo "$donnees[marque] "; ?><?php echo $donnees['modele']; ?></option>
                 <?php
                 }
                 ?>

@@ -87,37 +87,24 @@ if (!empty($_POST)) {
     //champs select non obligatoire
     $associtation_conducteur_vehicule = verifInput("associtation_conducteur_vehicule", false, "string");
     $association_vehicule_conducteur = verifInput("association_vehicule_conducteur", false, "string");
+    //ici pas besoin de v
     if (count($erreur) === 0) {
 
-        // insertion en base 
-        //verifions que le conducteur n'existe pas deja
-        $rq = "SELECT id FROM vehicule WHERE immatriculation = :immatriculation";
-        $query = $pdo->prepare($rq);
-        $query->bindValue(':immatriculation', $immatriculation, PDO::PARAM_STR);
-        $query->execute();
-        $result = $query->fetch();
 
-        if (!$result) {
-            $rq = "INSERT INTO vehicules(nom, prenom)
-            VALUES (:nom,:prenom)";
-            $query = $pdo->prepare($rq);
-            $query->bindValue(':nom', $nom, PDO::PARAM_STR);
-            $query->bindValue(':prenom', $prenom, PDO::PARAM_STR);
-            $query->execute();
-            echo $erreur;
-            header("Location:index.php");
-        } else {
-            $erreur["nom"] = "Cette personne existe déjà";
-            $erreur = serialize($erreur);
-            header("Location:index?er=$erreur");
-        }
+        $rq = "INSERT INTO association_vehicule_conducteur(id_vehicule, id_conducteur)
+            VALUES (:id_vehicule,:id_conducteur)";
+        $query = $pdo->prepare($rq);
+        $query->bindValue(':id_vehicule', $id_vehicule, PDO::PARAM_INT);
+        $query->bindValue(':id_conducteur', $id_conducteur, PDO::PARAM_INT);
+        $query->execute();
+        echo $erreur;
+        header("Location:form_assoc.php");
     } else {
+        $erreur["nom"] = "Cette personne existe déjà";
         $erreur = serialize($erreur);
-        header("Location:index?er=$erreur");
+        header("Location:form_assoc?er=$erreur");
     }
 }
-
-
 
 
 //  @copyright Thoumire MATHIEU 
