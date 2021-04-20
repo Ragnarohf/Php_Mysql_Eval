@@ -4,7 +4,7 @@
 require_once('./inc/functions.php');
 
 //$_FILES permet de stocker les fichiers uploadés (input type="files)
-require_once("./vendor/autoload.php");
+
 
 
 //  @copyright Thoumire MATHIEU 
