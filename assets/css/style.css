@@ -74,30 +74,9 @@ select:hover {
 .error {
   color: red;
 }
-#slider {
-  max-width: 100%;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+
 #article {
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
-}
-#single {
-  display: flex;
-  justify-content: space-around;
-}
-.autoComp {
-  position: relative;
-}
-.divAutoComp {
-  display: none;
-  padding: 1rem;
-  position: absolute;
-  z-index: 2;
-  top: 40px;
-  background-color: rgba(0, 0, 0, 0.7);
 }
